@@ -28,8 +28,6 @@ export default async function Profile() {
 		auth.api.listOrganizations({ headers: await headers() }),
 	]);
 
-	console.log(orgs);
-
 	// Just an example of fetching data from the api routes
 	const res = await data.json();
 
