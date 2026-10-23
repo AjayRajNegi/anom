@@ -2,6 +2,7 @@
 
 import { CheckCircle, FileVideo, Upload, X } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
 	Card,
@@ -48,6 +49,7 @@ export default function UploadPage() {
 		progress: 0,
 	});
 	const fileInputRef = useRef<HTMLInputElement>(null);
+	const router = useRouter();
 
 	const reset = useCallback(() => {
 		setUploadState({ stage: "idle", progress: 0 });
@@ -139,21 +141,19 @@ export default function UploadPage() {
 				throw new Error(verifyResult.error || "Upload verification failed");
 			}
 
-			setUploadState((s) => ({ ...s, stage: "complete", progress: 100 }));
 			toastManager.add({
 				title: "Video uploaded successfully!",
 				type: "success",
 			});
 
-			setTimeout(() => {
-				reset();
-			}, 2000);
+			// Redirect to the video page
+			router.push(`/anom-org/catalog/${videoId}`);
 		} catch (err) {
 			const message = err instanceof Error ? err.message : "Upload failed";
 			setUploadState((s) => ({ ...s, stage: "error", error: message }));
 			toastManager.add({ title: message, type: "error" });
 		}
-	}, [uploadState.file, title, description, reset]);
+	}, [uploadState.file, title, description, router]);
 
 	const isUploading = ["creating", "uploading", "verifying"].includes(
 		uploadState.stage,

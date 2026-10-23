@@ -1,9 +1,11 @@
-export default function CatalogPage() {
-	return (
-		<div className="flex flex-col h-screen w-screen items-center justify-center">
-			<div className="uppercase tracking-widest text-3xl">
-				Catalog of all the videos
-			</div>
-		</div>
-	);
+import type { Metadata } from "next";
+import { CatalogContent } from "./catalog-content";
+
+export const metadata: Metadata = {
+	title: "Video Catalog",
+	description: "Browse all videos in your organization",
+};
+
+export default async function CatalogPage() {
+	return <CatalogContent />;
 }
