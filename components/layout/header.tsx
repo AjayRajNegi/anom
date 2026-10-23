@@ -20,7 +20,7 @@ export function Header() {
 						</Link> */}
 						<Link
 							className="mr-5 underline underline-offset-2"
-							href="/org123/profile"
+							href="/anom-org/profile"
 						>
 							Profile
 						</Link>

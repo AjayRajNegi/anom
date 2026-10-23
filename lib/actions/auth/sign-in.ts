@@ -76,5 +76,5 @@ export async function signInAction(
 		};
 	}
 
-	redirect("/dashboard");
+	redirect("/anom-org");
 }

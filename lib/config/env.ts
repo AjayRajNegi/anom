@@ -1,15 +1,20 @@
 import { z } from "zod";
 
 const envSchema = z.object({
-  BETTER_AUTH_SECRET: z.string().min(1),
-  BETTER_AUTH_URL: z.string().min(1),
-  DATABASE_URL: z.string().min(1),
-  GITHUB_CLIENT_ID: z.string().min(1),
-  GITHUB_CLIENT_SECRET: z.string().min(1),
-  GOOGLE_CLIENT_ID: z.string().min(1),
-  GOOGLE_CLIENT_SECRET: z.string().min(1),
-  NEXT_PUBLIC_APP_URL: z.string().min(1),
-  NEXT_PUBLIC_BETTER_AUTH_URL: z.string().min(1),
+	BETTER_AUTH_SECRET: z.string().min(1),
+	BETTER_AUTH_URL: z.string().min(1),
+	DATABASE_URL: z.string().min(1),
+	GITHUB_CLIENT_ID: z.string().min(1),
+	GITHUB_CLIENT_SECRET: z.string().min(1),
+	GOOGLE_CLIENT_ID: z.string().min(1),
+	GOOGLE_CLIENT_SECRET: z.string().min(1),
+	NEXT_PUBLIC_APP_URL: z.string().min(1),
+	NEXT_PUBLIC_BETTER_AUTH_URL: z.string().min(1),
+	R2_ACCOUNT_ID: z.string().min(1),
+	R2_ACCESS_KEY_ID: z.string().min(1),
+	R2_SECRET_ACCESS_KEY: z.string().min(1),
+	R2_BUCKET_NAME: z.string().min(1),
+	R2_PUBLIC_URL: z.string().url().optional(),
 });
 
 export const env = envSchema.parse(process.env);

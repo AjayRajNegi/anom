@@ -59,7 +59,7 @@ export function SignInForm() {
 						router.push("/two-factor");
 					} else {
 						toastManager.add({ title: "Login successful!", type: "success" });
-						router.push("/dashboard");
+						router.push("/anom-org");
 					}
 				},
 			});

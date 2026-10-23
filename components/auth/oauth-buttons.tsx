@@ -14,7 +14,7 @@ export function OAuthButtons({ path }: { path: string }) {
 	async function signIn(provider: Provider) {
 		setPending(provider);
 		const { error } = await authClient.signIn.social({
-			callbackURL: "/org123",
+			callbackURL: "/anom-org",
 			errorCallbackURL: path,
 			provider,
 		});

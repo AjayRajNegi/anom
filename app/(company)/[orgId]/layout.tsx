@@ -26,19 +26,15 @@ export default function RootLayout({
 	children: React.ReactNode;
 }>) {
 	return (
-		<html
-			className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
-			lang="en"
+		<div
+			className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
 		>
-			<body className="flex min-h-full flex-col">
-				<ToastProvider position="bottom-right">
-					<AnchoredToastProvider>
-						<Header />
-						{children}
-						<Footer />
-					</AnchoredToastProvider>
-				</ToastProvider>
-			</body>
-		</html>
+			<ToastProvider position="bottom-right">
+				<AnchoredToastProvider>
+					<Header />
+					<main className="flex-1">{children}</main>
+				</AnchoredToastProvider>
+			</ToastProvider>
+		</div>
 	);
 }

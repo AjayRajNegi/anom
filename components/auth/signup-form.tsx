@@ -63,7 +63,7 @@ export default function SignUpForm() {
 			// On success we're navigating away — keep the spinner showing until
 			// that happens instead of flashing it off before the redirect lands.
 			toastManager.add({ title: "Signup successfull!", type: "success" });
-			router.push("/org123");
+			router.push("/anom-org");
 		} catch {
 			toastManager.add({ title: "Something went wrong", type: "error" });
 			setPending(false);

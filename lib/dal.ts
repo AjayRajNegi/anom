@@ -11,19 +11,29 @@ export const requireUser = cache(async () => {
 
 export const requireRole = cache(async (role: "admin") => {
 	const user = await requireUser();
-	if (user.role !== role) redirect("/dashboard");
+	if (user.role !== role) redirect("/anom-org");
 	return user;
 });
 
 export const requireMembership = cache(async () => {
 	const user = await requireUser();
-	const orgs = await auth.api.listOrganizations({ headers: await headers() });
+	const orgs = await auth.api.listOrganizations({
+		headers: await headers(),
+	});
 
-	const activeOrg = orgs.find(
-		(org) => org.id === "oUAuSJw9Ad6CF9nnsQZG1y1Lqn4GoNjF",
-	);
+	const orgId = "oUAuSJw9Ad6CF9nnsQZG1y1Lqn4GoNjF";
 
-	if (!activeOrg) redirect("/dashboard");
+	console.log("Membership check:", {
+		userId: user.id,
+		organizationIds: orgs.map((org) => org.id),
+		expectedOrgId: orgId,
+	});
+
+	const activeOrg = orgs.find((org) => org.id === orgId);
+
+	if (!activeOrg) {
+		redirect("/");
+	}
 
 	return { user, activeOrg };
 });
