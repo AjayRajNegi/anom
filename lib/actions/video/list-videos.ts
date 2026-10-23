@@ -1,11 +1,11 @@
 "use server";
 
 import { headers } from "next/headers";
+import { z } from "zod";
+import { VideoStatus } from "@/app/generated/prisma/enums";
 import { auth } from "@/lib/auth/auth";
 import { requireMembership } from "@/lib/dal";
 import prisma from "@/lib/db/prisma";
-import { VideoStatus } from "@/app/generated/prisma/enums";
-import { z } from "zod";
 
 const listVideosSchema = z.object({
 	page: z.number().int().min(1).default(1),
@@ -40,10 +40,7 @@ export interface ListVideosResult {
 	error?: string;
 }
 
-export async function listVideos(
-	input: unknown
-): Promise<ListVideosResult> {
-	// 1. Validate input
+export async function listVideos(input: unknown): Promise<ListVideosResult> {
 	const parsed = listVideosSchema.safeParse(input);
 	if (!parsed.success) {
 		return { success: false, error: "Invalid pagination params" };
@@ -51,17 +48,14 @@ export async function listVideos(
 
 	const { page, pageSize, status } = parsed.data;
 
-	// 2. Session
 	const session = await auth.api.getSession({ headers: await headers() });
 	if (!session?.user) {
 		return { success: false, error: "Unauthorized" };
 	}
 
-	// 3. Membership
 	const membership = await requireMembership();
 	const orgId = membership.activeOrg.id;
 
-	// 4. Query
 	const where = {
 		organizationId: orgId,
 		deletedAt: null,

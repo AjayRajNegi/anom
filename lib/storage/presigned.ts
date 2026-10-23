@@ -24,11 +24,6 @@ export interface PresignedPlaybackResult {
 	expiresIn: number;
 }
 
-/**
- * Generate a presigned PUT URL for video upload.
- * Uses signed Content-Type and Content-Length as required by R2.
- * Returns the URL, key, and required headers for the client to use.
- */
 export async function getPresignedUploadUrl(
 	orgId: string,
 	videoId: string,
@@ -68,10 +63,6 @@ export async function getPresignedUploadUrl(
 	};
 }
 
-/**
- * Generate a presigned GET URL for video playback.
- * Short-lived (1 hour), never logged, never stored.
- */
 export async function getPresignedPlaybackUrl(
 	key: string,
 ): Promise<PresignedPlaybackResult> {
@@ -90,10 +81,6 @@ export async function getPresignedPlaybackUrl(
 	};
 }
 
-/**
- * Verify an uploaded object exists and matches expected size/content-type.
- * Called after client reports upload complete.
- */
 export async function verifyUpload(
 	key: string,
 	expectedSize: number,
@@ -119,9 +106,6 @@ export async function verifyUpload(
 	};
 }
 
-/**
- * Delete an object from R2 (used for cleanup on failed uploads).
- */
 export async function deleteObject(key: string): Promise<void> {
 	const { DeleteObjectCommand } = await import("@aws-sdk/client-s3");
 	const command = new DeleteObjectCommand({
