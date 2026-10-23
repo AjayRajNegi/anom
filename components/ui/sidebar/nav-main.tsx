@@ -1,6 +1,8 @@
 "use client";
 
 import { type LucideIcon, MailIcon, VideoIcon } from "lucide-react";
+import Link from "next/link";
+import { redirect } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import {
 	SidebarGroup,
@@ -25,8 +27,9 @@ export function NavMain({
 				<SidebarMenu>
 					<SidebarMenuItem className="flex items-center gap-2">
 						<SidebarMenuButton
+							onClick={() => redirect("/anom-org/catalog")}
 							tooltip="Quick Create"
-							className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground"
+							className="min-w-8 bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/90 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground cursor-pointer"
 						>
 							<VideoIcon />
 							<span>Catalog</span>
@@ -45,8 +48,10 @@ export function NavMain({
 					{items.map((item) => (
 						<SidebarMenuItem key={item.title}>
 							<SidebarMenuButton tooltip={item.title}>
-								{item.icon && <item.icon />}
-								<span>{item.title}</span>
+								<Link href={item.url} className="flex gap-2">
+									{item.icon && <item.icon />}
+									<span>{item.title}</span>
+								</Link>
 							</SidebarMenuButton>
 						</SidebarMenuItem>
 					))}

@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { VideoGrid } from "./video-grid";
 import { getVideos } from "./video-list";
 
@@ -5,15 +6,15 @@ export async function CatalogContent() {
 	const { videos, nextCursor, hasMore } = await getVideos();
 
 	return (
-		<div className="container mx-auto px-4 border mt-32 py-8 rounded-2xl">
+		<div className="container mx-auto px-4  mt-5 py-8 ">
 			<div className="flex items-center justify-between mb-4">
 				<div>
-					<h1 className="text-3xl font-bold tracking-tight">Video Catalog</h1>
-					<p className="text-muted-foreground mt-1">
+					<h1 className="text-3xl font-[400] tracking-tight">Video Catalog</h1>
+					<p className="text-muted-foreground mt-1 font-thin">
 						All videos in your organization
 					</p>
 				</div>
-				<a
+				<Link
 					href="/anom-org/upload"
 					className="hidden sm:inline-flex items-center gap-2"
 				>
@@ -32,7 +33,7 @@ export async function CatalogContent() {
 						<line x1="12" y1="3" x2="12" y2="15" />
 					</svg>
 					Upload Video
-				</a>
+				</Link>
 			</div>
 
 			<VideoGrid

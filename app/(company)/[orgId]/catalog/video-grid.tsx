@@ -50,7 +50,7 @@ function VideoCard({ video }: { video: VideoListItem }) {
 	const isReady = video.status === "READY";
 
 	return (
-		<Card className="flex flex-col h-full transition-shadow hover:shadow-lg w-full">
+		<Card className="flex flex-col h-full w-full transition-shadow hover:shadow-lg">
 			<CardHeader className="pb-2">
 				<div className="flex items-start justify-between gap-2">
 					<CardTitle className="text-lg truncate flex-1">
@@ -205,8 +205,8 @@ export function VideoGrid({
 	}
 
 	return (
-		<div className="space-y-6">
-			<div className="grid grid-cols-1 sm:grid-cols-2 gap-4 ">
+		<div className="space-y-6 w-full">
+			<div className="grid grid-cols-1 gap-4 ">
 				{videos.map((video) => (
 					<article key={video.id}>
 						<VideoCard video={video} />
