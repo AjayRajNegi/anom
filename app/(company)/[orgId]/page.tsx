@@ -1,3 +1,4 @@
+import { redirect } from "next/navigation";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { listMembers } from "@/lib/actions/org/list-members";
@@ -6,17 +7,22 @@ import { VideoGrid } from "./catalog/video-grid";
 import { getVideos } from "./catalog/video-list";
 
 export default async function OrgPage() {
-	await requireMembership();
+	const { activeOrg } = await requireMembership();
 	const { videos, nextCursor, hasMore } = await getVideos();
 	const { user } = await listMembers();
 
-	console.log(videos);
+	if (!activeOrg) {
+		redirect("/");
+	}
+
 	return (
 		<div className="container mx-auto px-4 py-8">
 			<div className="flex items-center justify-between mb-8">
 				<div>
-					<h1 className="text-3xl font-bold tracking-tight">Welcome back</h1>
-					<p className="text-muted-foreground mt-1">
+					<h1 className="text-3xl font-[400] tracking-tight">
+						{activeOrg.name}
+					</h1>
+					<p className="text-muted-foreground text-sm font-[400]">
 						Recent videos in your organization
 					</p>
 				</div>

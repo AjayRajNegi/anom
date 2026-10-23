@@ -53,7 +53,7 @@ function VideoCard({ video }: { video: VideoListItem }) {
 		<Card className="flex flex-col h-full w-full transition-shadow hover:shadow-lg">
 			<CardHeader className="pb-2">
 				<div className="flex items-start justify-between gap-2">
-					<CardTitle className="text-lg truncate flex-1">
+					<CardTitle className="text-lg font-[400] truncate flex-1">
 						{video.title}
 					</CardTitle>
 					<div className="flex items-center gap-1.5">
@@ -69,11 +69,11 @@ function VideoCard({ video }: { video: VideoListItem }) {
 								Failed
 							</Badge>
 						)}
-						{isReady && <Badge variant="outline">Ready</Badge>}
+						{isReady && <Badge variant="success">Ready</Badge>}
 					</div>
 				</div>
 				{video.description && (
-					<p className="text-sm text-muted-foreground line-clamp-2 mt-1">
+					<p className="text-sm font-[400] text-muted-foreground line-clamp-2 mt-1">
 						{video.description}
 					</p>
 				)}
