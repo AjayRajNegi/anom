@@ -3,7 +3,6 @@
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { authClient } from "@/lib/auth/auth-client";
-import { Button } from "../ui/button";
 import { toastManager } from "../ui/toast";
 
 export function SignoutButton() {
@@ -32,8 +31,7 @@ export function SignoutButton() {
 	}
 	return (
 		<div className="w-full">
-			<Button
-				variant="destructive-outline"
+			<button
 				aria-busy={pending}
 				disabled={pending}
 				onClick={signout}
@@ -41,7 +39,7 @@ export function SignoutButton() {
 				className="w-full"
 			>
 				{pending ? "Signing out..." : "Signout"}
-			</Button>
+			</button>
 		</div>
 	);
 }

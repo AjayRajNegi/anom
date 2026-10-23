@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../../globals.css";
 import { Header } from "@/components/layout/header";
+import { AppSidebar } from "@/components/ui/app-sidebar";
+import { SidebarProvider } from "@/components/ui/sidebar";
+import { SiteHeader } from "@/components/ui/sidebar/site-header";
 import { AnchoredToastProvider, ToastProvider } from "@/components/ui/toast";
 
 const geistSans = Geist({
@@ -28,12 +31,19 @@ export default function RootLayout({
 		<div
 			className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
 		>
-			<ToastProvider position="bottom-right">
-				<AnchoredToastProvider>
-					<Header />
-					<main className="flex-1">{children}</main>
-				</AnchoredToastProvider>
-			</ToastProvider>
+			<SidebarProvider>
+				<AppSidebar />
+				<ToastProvider position="bottom-right">
+					<AnchoredToastProvider>
+						{/* <Header /> */}
+
+						<main className="flex-1">
+							<SiteHeader />
+							{children}
+						</main>
+					</AnchoredToastProvider>
+				</ToastProvider>
+			</SidebarProvider>
 		</div>
 	);
 }
