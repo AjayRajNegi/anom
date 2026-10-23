@@ -7,9 +7,9 @@ export default function Home() {
 	return (
 		<>
 			{/* <Header /> */}
-			<div className="flex flex-col h-screen w-screen items-center justify-center bg-foreground text-background ">
+			<div className="flex flex-col h-screen w-screen items-center justify-center">
 				<div className="uppercase tracking-widest text-3xl">Marketing Page</div>
-				<Button className="">
+				<Button className="font-thin mt-1">
 					<Link href={"/org123"}>You company dashboard</Link>
 				</Button>
 			</div>
