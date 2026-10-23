@@ -23,12 +23,6 @@ export const requireMembership = cache(async () => {
 
 	const orgId = "oUAuSJw9Ad6CF9nnsQZG1y1Lqn4GoNjF";
 
-	console.log("Membership check:", {
-		userId: user.id,
-		organizationIds: orgs.map((org) => org.id),
-		expectedOrgId: orgId,
-	});
-
 	const activeOrg = orgs.find((org) => org.id === orgId);
 
 	if (!activeOrg) {

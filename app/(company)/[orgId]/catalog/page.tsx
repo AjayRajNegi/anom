@@ -7,5 +7,9 @@ export const metadata: Metadata = {
 };
 
 export default async function CatalogPage() {
-	return <CatalogContent />;
+	return (
+		<div>
+			<CatalogContent />
+		</div>
+	);
 }
