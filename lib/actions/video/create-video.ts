@@ -33,7 +33,7 @@ export async function createVideo(input: unknown): Promise<CreateVideoResult> {
 		};
 	}
 
-	const { title, description, mimeType, sizeBytes } = parsed.data;
+	const { title, description, mimeType, sizeBytes, duration } = parsed.data;
 
 	const session = await auth.api.getSession({ headers: await headers() });
 	if (!session?.user) {
@@ -54,6 +54,7 @@ export async function createVideo(input: unknown): Promise<CreateVideoResult> {
 			originalKey: "",
 			mimeType,
 			sizeBytes: BigInt(sizeBytes),
+			durationMs: duration * 1000,
 		},
 		select: { id: true },
 	});

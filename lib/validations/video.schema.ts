@@ -14,6 +14,7 @@ export const createVideoSchema = z.object({
 		.int()
 		.min(MIN_VIDEO_SIZE_BYTES, "File too small")
 		.max(MAX_VIDEO_SIZE_BYTES, "File too large (max 5GB)"),
+	duration: z.number().min(1),
 });
 
 export type CreateVideoInput = z.infer<typeof createVideoSchema>;

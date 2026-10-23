@@ -39,6 +39,7 @@ interface UploadState {
 	videoId?: string;
 	error?: string;
 	file?: File;
+	duration?: number;
 }
 
 export default function UploadPage() {
@@ -57,7 +58,7 @@ export default function UploadPage() {
 		setDescription("");
 	}, []);
 
-	const handleFileSelect = useCallback((file: File) => {
+	const handleFileSelect = async (file: File) => {
 		if (!ALLOWED_TYPES.includes(file.type as (typeof ALLOWED_TYPES)[number])) {
 			toastManager.add({
 				title: `Unsupported file type. Allowed: ${ALLOWED_TYPES.join(", ")}`,
@@ -72,14 +73,20 @@ export default function UploadPage() {
 			});
 			return;
 		}
-		setUploadState((s) => ({
-			...s,
-			file,
-			stage: "idle",
-			error: undefined,
-			progress: 0,
-		}));
-	}, []);
+		try {
+			const duration = await getVideoDuration(file);
+			setUploadState((s) => ({
+				...s,
+				file,
+				duration,
+				stage: "idle",
+				error: undefined,
+				progress: 0,
+			}));
+		} catch (error) {
+			console.error("Failed to extract video duration:", error);
+		}
+	};
 
 	const handleUpload = useCallback(async () => {
 		const file = uploadState.file;
@@ -105,12 +112,12 @@ export default function UploadPage() {
 				description: description.trim() || undefined,
 				mimeType: file.type,
 				sizeBytes: file.size,
+				duration: uploadState.duration,
 			});
 
 			if (!createResult.success) {
 				throw new Error(createResult.error || "Failed to create video record");
 			}
-
 			const { videoId, uploadUrl, headers } = createResult;
 
 			setUploadState((s) => ({
@@ -153,7 +160,28 @@ export default function UploadPage() {
 			setUploadState((s) => ({ ...s, stage: "error", error: message }));
 			toastManager.add({ title: message, type: "error" });
 		}
-	}, [uploadState.file, title, description, router]);
+	}, [uploadState.file, title, description, router, uploadState.duration]);
+
+	const getVideoDuration = (file: File): Promise<number> => {
+		return new Promise((resolve, reject) => {
+			const video = document.createElement("video");
+			const url = URL.createObjectURL(file);
+
+			video.preload = "metadata";
+
+			video.onloadedmetadata = () => {
+				URL.revokeObjectURL(url);
+				resolve(video.duration);
+			};
+
+			video.onerror = () => {
+				URL.revokeObjectURL(url);
+				reject(new Error("Unable to read video duration"));
+			};
+
+			video.src = url;
+		});
+	};
 
 	const isUploading = ["creating", "uploading", "verifying"].includes(
 		uploadState.stage,

@@ -4,6 +4,7 @@ import { getVideos } from "./video-list";
 
 export async function CatalogContent() {
 	const { videos, nextCursor, hasMore } = await getVideos();
+	console.log(videos);
 
 	return (
 		<div className="container mx-auto px-4  mt-5 py-8 ">
