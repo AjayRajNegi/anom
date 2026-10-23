@@ -26,8 +26,11 @@ model User {
   accounts   Account[]
   twoFactors TwoFactor[]
 
-  members     Member[]
-  invitations Invitation[]
+  members           Member[]
+  invitations       Invitation[]
+  videos            Video[]
+  annotations       Annotation[]
+  annotationReplies AnnotationReply[]
 
   @@unique([email])
   @@map("user")
@@ -113,10 +116,11 @@ model Organization {
   name        String
   slug        String
   logo        String?
-  createdAt   DateTime @default(now())
+  createdAt   DateTime     @default(now())
   metadata    String?
   members     Member[]
   invitations Invitation[]
+  videos      Video[]
 
   @@unique([slug])
   @@map("organization")
@@ -131,7 +135,7 @@ model Member {
   role           String       @default("member")
   createdAt      DateTime     @default(now())
 
-  @@index([organizationId])
+  @@unique([organizationId, userId])
   @@index([userId])
   @@map("member")
 }
@@ -151,4 +155,84 @@ model Invitation {
   @@index([organizationId])
   @@index([email])
   @@map("invitation")
+}
+
+enum VideoStatus {
+  UPLOADING
+  PROCESSING
+  READY
+  FAILED
+}
+
+enum AnnotationStatus {
+  OPEN
+  RESOLVED
+}
+
+model Video {
+  id             String      @id @default(cuid())
+  organizationId String
+  uploaderId     String
+  title          String
+  description    String?
+  status         VideoStatus @default(UPLOADING)
+
+  originalKey String  @unique
+  posterKey   String?
+  mimeType    String
+  sizeBytes   BigInt
+  durationMs  Int?
+  width       Int?
+  height      Int?
+  fps         Float?
+
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+  deletedAt DateTime?
+
+  annotations Annotation[]
+
+  organization Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  uploader     User         @relation(fields: [uploaderId], references: [id], onDelete: Restrict)
+
+  @@unique([id, organizationId])
+  @@index([organizationId, createdAt(sort: Desc), id(sort: Desc)])
+  @@index([uploaderId, createdAt(sort: Desc)])
+}
+
+model Annotation {
+  id             String           @id @default(cuid())
+  videoId        String
+  organizationId String
+  authorId       String
+  startMs        Int
+  endMs          Int
+  body           String           @db.VarChar(2000)
+  status         AnnotationStatus @default(OPEN)
+  screenshotKey  String?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+  deletedAt      DateTime?
+
+  video   Video             @relation(fields: [videoId, organizationId], references: [id, organizationId])
+  author  User              @relation(fields: [authorId], references: [id])
+  replies AnnotationReply[]
+
+  @@index([videoId, startMs, id])
+  @@index([authorId, createdAt(sort: Desc)])
+}
+
+model AnnotationReply {
+  id           String    @id @default(cuid())
+  annotationId String
+  authorId     String
+  body         String    @db.VarChar(2000)
+  createdAt    DateTime  @default(now())
+  deletedAt    DateTime?
+
+  annotation Annotation @relation(fields: [annotationId], references: [id], onDelete: Cascade)
+  author     User       @relation(fields: [authorId], references: [id], onDelete: Restrict)
+
+  @@index([annotationId, createdAt])
+  @@index([authorId, createdAt(sort: Desc)])
 }
