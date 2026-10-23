@@ -1,4 +1,4 @@
-import prisma from "../db/prisma";
+import prisma from "@/lib/db/prisma";
 
 export async function addMemberToDemoOrf(userId: string) {
 	await prisma.member.create({
