@@ -105,11 +105,7 @@ export default function UploadPage() {
 				sizeBytes: file.size,
 			});
 
-			if (
-				!createResult.success ||
-				!createResult.uploadUrl ||
-				!createResult.videoId
-			) {
+			if (!createResult.success) {
 				throw new Error(createResult.error || "Failed to create video record");
 			}
 

@@ -8,15 +8,19 @@ import prisma from "@/lib/db/prisma";
 import { getPresignedUploadUrl } from "@/lib/storage/presigned";
 import { createVideoSchema } from "@/lib/validations/video.schema";
 
-export interface CreateVideoResult {
-	success: boolean;
-	videoId?: string;
-	uploadUrl?: string;
-	key?: string;
-	headers?: Record<string, string>;
-	expiresIn?: number;
-	error?: string;
-}
+export type CreateVideoResult =
+	| {
+			success: true;
+			videoId: string;
+			uploadUrl: string;
+			key: string;
+			headers: Record<string, string>;
+			expiresIn: number;
+	  }
+	| {
+			success: false;
+			error: string;
+	  };
 
 export async function createVideo(input: unknown): Promise<CreateVideoResult> {
 	const parsed = createVideoSchema.safeParse(input);
@@ -65,21 +69,6 @@ export async function createVideo(input: unknown): Promise<CreateVideoResult> {
 		where: { id: video.id },
 		data: { originalKey: presigned.key },
 	});
-
-	console.log(
-		"success",
-		true,
-		"videoId",
-		video.id,
-		"uploadUrl",
-		presigned.uploadUrl,
-		"key",
-		presigned.key,
-		"headers",
-		presigned.headers,
-		"expiresIn",
-		presigned.expiresIn,
-	);
 
 	return {
 		success: true,
