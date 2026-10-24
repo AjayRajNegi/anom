@@ -60,39 +60,39 @@ const data = {
 			icon: UserIcon,
 		},
 	],
-	navClouds: [
-		{
-			title: "Capture",
-			icon: CameraIcon,
-			isActive: true,
-			url: "#",
-			items: [
-				{
-					title: "Active Proposals",
-					url: "#",
-				},
-				{
-					title: "Archived",
-					url: "#",
-				},
-			],
-		},
-		{
-			title: "Proposal",
-			icon: FileTextIcon,
-			url: "#",
-			items: [
-				{
-					title: "Active Proposals",
-					url: "#",
-				},
-				{
-					title: "Archived",
-					url: "#",
-				},
-			],
-		},
-	],
+	// navClouds: [
+	// 	{
+	// 		title: "Capture",
+	// 		icon: CameraIcon,
+	// 		isActive: true,
+	// 		url: "#",
+	// 		items: [
+	// 			{
+	// 				title: "Active Proposals",
+	// 				url: "#",
+	// 			},
+	// 			{
+	// 				title: "Archived",
+	// 				url: "#",
+	// 			},
+	// 		],
+	// 	},
+	// 	{
+	// 		title: "Proposal",
+	// 		icon: FileTextIcon,
+	// 		url: "#",
+	// 		items: [
+	// 			{
+	// 				title: "Active Proposals",
+	// 				url: "#",
+	// 			},
+	// 			{
+	// 				title: "Archived",
+	// 				url: "#",
+	// 			},
+	// 		],
+	// 	},
+	// ],
 	navSecondary: [
 		{
 			title: "Profile",

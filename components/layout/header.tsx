@@ -12,16 +12,7 @@ export function Header() {
 			{session?.user ? (
 				session?.user && (
 					<>
-						{/* <Link
-							className="mr-5 underline underline-offset-2"
-							href="/dashboard"
-						>
-							Dashboard
-						</Link> */}
-						<Link
-							className="mr-5 underline underline-offset-2"
-							href="/anom-org/profile"
-						>
+						<Link className="mr-5" href="/anom-org/profile">
 							Profile
 						</Link>
 						<div className="mr-5 flex items-center">
@@ -31,10 +22,10 @@ export function Header() {
 				)
 			) : (
 				<>
-					<Link className="mr-5 underline underline-offset-2" href="/login">
+					<Link className="mr-5" href="/login">
 						Login
 					</Link>
-					<Link className="mr-5 underline underline-offset-2" href="/register">
+					<Link className="mr-5" href="/register">
 						Register
 					</Link>
 					<div className="mr-5 flex items-center">

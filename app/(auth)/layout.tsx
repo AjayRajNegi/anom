@@ -1,5 +1,6 @@
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
+import { Header } from "@/components/layout/header";
 import { auth } from "@/lib/auth/auth";
 
 export default async function AuthLayout({
@@ -17,6 +18,7 @@ export default async function AuthLayout({
 
 	return (
 		<main className="mx-auto mt-[15%] flex max-w-sm flex-col items-center justify-center rounded-sm px-4 py-4">
+			<Header />
 			{children}
 		</main>
 	);
