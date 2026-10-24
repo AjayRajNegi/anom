@@ -53,6 +53,7 @@ export default function SignUpForm() {
 		try {
 			const { error } = await authClient.signUp.email(parsed.data);
 			if (error) {
+				console.error(error);
 				toastManager.add({
 					title: error.message ?? "Sign up failed",
 					type: "error",
@@ -60,8 +61,7 @@ export default function SignUpForm() {
 				setPending(false);
 				return;
 			}
-			// On success we're navigating away — keep the spinner showing until
-			// that happens instead of flashing it off before the redirect lands.
+
 			toastManager.add({ title: "Signup successfull!", type: "success" });
 			router.push("/anom-org");
 		} catch {

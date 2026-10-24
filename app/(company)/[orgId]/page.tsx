@@ -12,7 +12,7 @@ export default async function OrgPage() {
 	const { user } = await listMembers();
 
 	if (!activeOrg) {
-		redirect("/");
+		redirect("/login");
 	}
 
 	return (
