@@ -48,7 +48,8 @@
     "build": "next build",
     "db:generate": "prisma generate",
     "dev": "next dev",
-    "start": "next start"
+    "start": "next start",
+    "postinstall": "prisma generate"
   },
   "trustedDependencies": [
     "sharp",
