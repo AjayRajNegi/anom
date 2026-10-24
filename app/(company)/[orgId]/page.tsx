@@ -49,9 +49,12 @@ export default async function OrgPage() {
 			</div>
 
 			<div className="flex flex-col lg:flex-row gap-4">
-				<Card className="w-full lg:w-[35%] h-fit">
-					<CardHeader>Members</CardHeader>
-					<CardContent className="space-y-3">
+				<Card className="w-full lg:w-[35%] h-fit rounded-xl transition-shadow hover:shadow-lg">
+					<CardHeader style={{ padding: "16px" }}>Members</CardHeader>
+					<CardContent
+						className="space-y-3"
+						style={{ padding: "16px", paddingTop: 0 }}
+					>
 						{user?.map((user) => (
 							<div
 								key={user.user.email}

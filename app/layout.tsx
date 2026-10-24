@@ -14,7 +14,7 @@ export default function RootLayout({
 }>) {
 	return (
 		<html lang="en" suppressHydrationWarning>
-			<body>
+			<body className="bg-sidebar">
 				<ThemeProvider
 					attribute="class"
 					defaultTheme="system"

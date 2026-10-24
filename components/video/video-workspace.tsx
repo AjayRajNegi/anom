@@ -100,9 +100,9 @@ export function VideoWorkspace({
 	return (
 		<main
 			aria-label={`Video workspace for ${videoId}`}
-			className="min-h-screen bg-background p-3 text-foreground sm:p-6"
+			className="min-h-screen bg-background p-4 text-foreground"
 		>
-			<div className="mx-auto w-full max-w-[1600px] rounded-3xl border border-border p-3 sm:p-5">
+			<div className="mx-auto w-full max-w-[1600px] rounded-xl p-1.5 sm:p-3">
 				<div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_300px]">
 					<div className="min-w-0 space-y-4">
 						<VideoPlayer

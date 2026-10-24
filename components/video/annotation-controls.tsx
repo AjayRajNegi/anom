@@ -1,5 +1,8 @@
 "use client";
 
+import { Button } from "../ui/button";
+import { Label } from "../ui/label";
+import { Textarea } from "../ui/textarea";
 import { formatTime } from "./video.types";
 
 type AnnotationControlsProps = {
@@ -28,67 +31,80 @@ export function AnnotationControls({
 	const canSubmit =
 		startMs !== null && endMs !== null && comment.trim().length > 0;
 
-	const buttonClass =
-		"rounded-xl border border-border px-5 py-3 text-sm " +
-		"transition hover:border-primary hover:bg-accent";
-
 	return (
-		<section className="space-y-3">
-			<div className="flex flex-wrap items-center gap-3 rounded-2xl border border-border p-4">
-				<div className="mr-auto">
-					<h2 className="font-medium">Select annotation range</h2>
-					<p className="mt-1 text-xs text-muted-foreground">
-						Current position: {formatTime(currentTime * 1000)}
-					</p>
+		<section className="space-y-4">
+			{/* Timestamp selection */}
+			<div className="rounded-lg border bg-card  transition-shadow hover:shadow-xl">
+				<div className="flex flex-wrap items-center justify-between gap-3 border-b px-4 py-3">
+					<div>
+						<h2 className="text-sm font-medium">Annotation range</h2>
+						<p className="text-xs text-muted-foreground">
+							Current position: {formatTime(currentTime * 1000)}
+						</p>
+					</div>
 				</div>
 
-				<button type="button" onClick={onMarkStart} className={buttonClass}>
-					<span className="block text-muted-foreground">Start</span>
-					<span className="text-primary">
-						{startMs === null ? "Set start" : formatTime(startMs * 1000)}
-					</span>
-				</button>
+				<div className="grid grid-cols-2 gap-3 p-3">
+					<Button
+						type="button"
+						variant="outline"
+						onClick={onMarkStart}
+						className="h-auto justify-between gap-3 px-3 py-2.5"
+					>
+						<span className="text-sm font-normal text-muted-foreground">
+							Start
+						</span>
+						<span className="font-mono text-xs">
+							{startMs === null ? "Set time" : formatTime(startMs * 1000)}
+						</span>
+					</Button>
 
-				<button type="button" onClick={onMarkEnd} className={buttonClass}>
-					<span className="block text-muted-foreground">End</span>
-					<span className="text-primary">
-						{endMs === null ? "Set end" : formatTime(endMs * 1000)}
-					</span>
-				</button>
+					<Button
+						type="button"
+						variant="outline"
+						onClick={onMarkEnd}
+						className="h-auto justify-between gap-3 px-3 py-2.5"
+					>
+						<span className="text-sm font-normal text-muted-foreground">
+							End
+						</span>
+						<span className="font-mono text-xs">
+							{endMs === null ? "Set time" : formatTime(endMs * 1000)}
+						</span>
+					</Button>
+				</div>
 			</div>
 
-			<div className="space-y-3 rounded-2xl border border-border p-4">
-				<label
-					htmlFor="annotation-comment"
-					className="block text-sm font-medium"
-				>
-					Comment
-				</label>
+			{/* Comment */}
+			<div className="space-y-3 rounded-lg border bg-card p-4  transition-shadow hover:shadow-xl">
+				<div className="space-y-1.5">
+					<Label htmlFor="annotation-comment">Comment</Label>
+					<Textarea
+						id="annotation-comment"
+						value={comment}
+						onChange={(event) => onCommentChange(event.currentTarget.value)}
+						placeholder="What happens in this part of the video?"
+						rows={3}
+						aria-invalid={!!error}
+						aria-describedby={error ? "annotation-error" : undefined}
+						className="resize-y"
+					/>
 
-				<textarea
-					id="annotation-comment"
-					value={comment}
-					onChange={(event) => onCommentChange(event.currentTarget.value)}
-					placeholder="What happens in this part of the video?"
-					rows={3}
-					className="w-full resize-y rounded-xl border border-input bg-background p-3 text-sm outline-none placeholder:text-muted-foreground focus:border-primary focus:ring-2 focus:ring-ring"
-				/>
-
-				{error && (
-					<p role="alert" className="text-sm text-destructive">
-						{error}
-					</p>
-				)}
+					{error && (
+						<p
+							id="annotation-error"
+							role="alert"
+							className="text-sm text-destructive"
+						>
+							{error}
+						</p>
+					)}
+				</div>
 
 				<div className="flex justify-end">
-					<button
-						type="button"
-						onClick={onSubmit}
-						disabled={!canSubmit}
-						className="rounded-xl bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition hover:bg-primary/90 disabled:cursor-not-allowed disabled:opacity-40"
-					>
+					<Button type="button" onClick={onSubmit} disabled={!canSubmit}>
 						Add annotation
-					</button>
+					</Button>
 				</div>
 			</div>
 		</section>

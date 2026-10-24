@@ -51,7 +51,7 @@ function VideoCard({ video }: { video: VideoListItem }) {
 
 	return (
 		<Card className="flex flex-col h-full w-full transition-shadow hover:shadow-lg">
-			<CardHeader className="pb-2">
+			<CardHeader className="pb-2" style={{ padding: "16px" }}>
 				<div className="flex items-start justify-between gap-2">
 					<CardTitle className="text-lg font-[400] truncate flex-1">
 						{video.title}
@@ -78,7 +78,10 @@ function VideoCard({ video }: { video: VideoListItem }) {
 					</p>
 				)}
 			</CardHeader>
-			<CardContent className="flex-1 flex flex-col">
+			<CardContent
+				className="flex-1 flex flex-col"
+				style={{ padding: "16px", paddingTop: 0 }}
+			>
 				<div className="flex flex-col gap-1 text-sm text-muted-foreground mb-3">
 					<div className="flex items-center gap-1.5">
 						<User className="h-4 w-4" />

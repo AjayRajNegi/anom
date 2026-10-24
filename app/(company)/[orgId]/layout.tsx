@@ -29,13 +29,13 @@ export default function RootLayout({
 }>) {
 	return (
 		<div
-			className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased`}
+			className={`${geistSans.variable} ${geistMono.variable} flex min-h-screen flex-col antialiased bg-sidebar`}
 		>
 			<SidebarProvider>
 				<AppSidebar />
 				<ToastProvider position="bottom-right">
 					<AnchoredToastProvider>
-						<main className="flex-1">
+						<main className="flex-1 m-2 border rounded-xl bg-background">
 							<SiteHeader />
 							{children}
 						</main>

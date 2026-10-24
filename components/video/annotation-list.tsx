@@ -1,5 +1,6 @@
 "use client";
 
+import { Badge } from "@/components/ui/badge";
 import { type Annotation, formatRange } from "./video.types";
 
 type AnnotationListProps = {
@@ -14,20 +15,22 @@ export function AnnotationList({
 	onSelect,
 }: AnnotationListProps) {
 	return (
-		<aside className="flex min-h-64 flex-col rounded-2xl border border-border p-4 lg:min-h-0">
-			<div className="mb-4 flex items-center justify-between gap-2">
-				<h2 className="text-lg font-semibold">All annotations</h2>
-				<span className="rounded-full bg-muted px-2.5 py-1 text-xs text-muted-foreground">
+		<aside className="flex min-h-64 flex-col rounded-lg border bg-card lg:min-h-0 transition-shadow hover:shadow-xl">
+			<div className="flex items-center justify-between gap-2 border-b px-4 py-3">
+				<h2 className="text-sm font-medium">Annotations</h2>
+				<Badge variant="secondary" className="font-mono text-xs">
 					{annotations.length}
-				</span>
+				</Badge>
 			</div>
 
-			<div className="space-y-3 overflow-y-auto lg:max-h-[calc(100vh-9rem)]">
+			<div className="flex-1 space-y-1 overflow-y-auto p-2 lg:max-h-[calc(100vh-9rem)]">
 				{annotations.length === 0 ? (
-					<p className="rounded-xl border border-dashed border-border p-4 text-sm leading-6 text-muted-foreground">
-						No annotations yet. Set a start and end time, then add your first
-						comment.
-					</p>
+					<div className="flex flex-col items-center justify-center px-4 py-10 text-center">
+						<p className="text-sm font-medium">No annotations yet</p>
+						<p className="mt-1 max-w-56 text-sm text-muted-foreground">
+							Set a time range and add a comment to start a discussion.
+						</p>
+					</div>
 				) : (
 					annotations.map((annotation) => {
 						const isActive = annotation.id === activeId;
@@ -38,17 +41,17 @@ export function AnnotationList({
 								type="button"
 								onClick={() => onSelect(annotation)}
 								aria-pressed={isActive}
-								className={`w-full rounded-xl border p-3 text-left transition ${
+								className={`w-full rounded-md border px-3 py-3 text-left transition-colors ${
 									isActive
-										? "border-primary bg-primary/10"
-										: "border-border hover:border-border/50"
+										? "border-primary/30 bg-accent"
+										: "border-transparent hover:bg-muted/50"
 								}`}
 							>
-								<span className="block text-sm font-medium text-primary">
+								<span className="block font-mono text-xs text-muted-foreground">
 									{formatRange(annotation)}
 								</span>
 
-								<span className="mt-2 block whitespace-pre-wrap break-words text-sm leading-6 text-foreground/80">
+								<span className="mt-1.5 block whitespace-pre-wrap break-words text-sm leading-relaxed text-foreground">
 									{annotation.body}
 								</span>
 							</button>
