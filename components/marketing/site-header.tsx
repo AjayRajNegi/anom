@@ -22,7 +22,7 @@ export function SiteHeader() {
 					className="flex items-center gap-2.5 text-[22px] font-medium tracking-tight"
 				>
 					<Waypoints className="size-6" strokeWidth={1.75} />
-					Fernway
+					Anom
 				</Link>
 				<nav className="hidden items-center gap-8 md:flex">
 					{links.map(([label, href]) => (

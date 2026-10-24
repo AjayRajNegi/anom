@@ -3,8 +3,9 @@ import "./globals.css";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 
 export const metadata: Metadata = {
-	title: "My App",
-	description: "My application",
+	title: "Anom",
+	description:
+		"Upload a video, and your team discusses it right on the timeline. Every comment is pinned to the second it’s about.",
 };
 
 export default function RootLayout({

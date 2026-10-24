@@ -106,7 +106,7 @@ export default function Page() {
 			<footer
 				className={`${wrap} mt-32 flex flex-wrap items-center justify-between gap-4 border-t py-8 text-[15px] text-muted-foreground`}
 			>
-				<span>© 2026 Fernway</span>
+				<span>© 2026 Anom</span>
 				<nav className="flex gap-6">
 					{["Docs", "Changelog", "Privacy", "Terms"].map((l) => (
 						<Link
