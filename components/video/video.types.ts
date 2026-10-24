@@ -1,12 +1,12 @@
 export type Annotation = {
 	id: string;
-	startSeconds: number;
-	endSeconds: number;
-	comment: string;
+	startMs: number;
+	endMs: number;
+	body: string;
 };
 
-export function formatTime(seconds: number): string {
-	const totalSeconds = Math.max(0, Math.floor(seconds));
+export function formatTime(milliseconds: number): string {
+	const totalSeconds = Math.max(0, Math.floor(milliseconds / 1000));
 	const hours = Math.floor(totalSeconds / 3600);
 	const minutes = Math.floor((totalSeconds % 3600) / 60);
 	const secs = totalSeconds % 60;
@@ -21,9 +21,7 @@ export function formatTime(seconds: number): string {
 }
 
 export function formatRange(
-	annotation: Pick<Annotation, "startSeconds" | "endSeconds">,
+	annotation: Pick<Annotation, "startMs" | "endMs">,
 ): string {
-	return `${formatTime(annotation.startSeconds)} – ${formatTime(
-		annotation.endSeconds,
-	)}`;
+	return `${formatTime(annotation.startMs)} – ${formatTime(annotation.endMs)}`;
 }

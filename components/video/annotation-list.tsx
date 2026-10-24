@@ -49,7 +49,7 @@ export function AnnotationList({
 								</span>
 
 								<span className="mt-2 block whitespace-pre-wrap break-words text-sm leading-6 text-white/80">
-									{annotation.comment}
+									{annotation.body}
 								</span>
 							</button>
 						);

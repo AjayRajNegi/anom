@@ -37,12 +37,12 @@ type VideoResult = {
 export type GetPlaybackUrlResult =
 	| {
 			success: false;
-			error?: string;
+			error: string;
 	  }
 	| {
 			success: true;
-			playbackUrl?: string;
-			expiresIn?: number;
+			playbackUrl: string;
+			expiresIn: number;
 			video: VideoResult;
 	  };
 

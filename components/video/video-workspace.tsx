@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import { createAnnotation } from "@/lib/actions/annotation/create-annotation";
 import { AnnotationControls } from "./annotation-controls";
 import { AnnotationList } from "./annotation-list";
 import type { Annotation } from "./video.types";
@@ -20,32 +21,32 @@ export function VideoWorkspace({
 	const videoRef = useRef<HTMLVideoElement>(null);
 
 	const [currentTime, setCurrentTime] = useState(0);
-	const [startSeconds, setStartSeconds] = useState<number | null>(null);
-	const [endSeconds, setEndSeconds] = useState<number | null>(null);
+	const [startMs, setStartMs] = useState<number | null>(null);
+	const [endMs, setEndMs] = useState<number | null>(null);
 	const [comment, setComment] = useState("");
 	const [annotations, setAnnotations] = useState(initialAnnotations);
 	const [activeId, setActiveId] = useState<string | null>(null);
 	const [error, setError] = useState<string | null>(null);
 
 	function markStart() {
-		setStartSeconds(currentTime);
+		setStartMs(currentTime);
 		setError(null);
 	}
 
 	function markEnd() {
-		setEndSeconds(currentTime);
+		setEndMs(currentTime);
 		setError(null);
 	}
 
-	function addAnnotation() {
+	async function addAnnotation() {
 		const trimmedComment = comment.trim();
 
-		if (startSeconds === null || endSeconds === null) {
+		if (startMs === null || endMs === null) {
 			setError("Select both a start time and an end time.");
 			return;
 		}
 
-		if (endSeconds <= startSeconds) {
+		if (endMs <= startMs) {
 			setError("The end time must be after the start time.");
 			return;
 		}
@@ -57,18 +58,28 @@ export function VideoWorkspace({
 
 		const annotation: Annotation = {
 			id: crypto.randomUUID(),
-			startSeconds,
-			endSeconds,
-			comment: trimmedComment,
+			startMs,
+			endMs,
+			body: trimmedComment,
 		};
 
-		setAnnotations((current) =>
-			[...current, annotation].sort((a, b) => a.startSeconds - b.startSeconds),
-		);
+		console.log(annotation);
+
+		const response = await createAnnotation({
+			videoId,
+			startMs: Math.round(startMs * 1000),
+			endMs: Math.round(endMs * 1000),
+			body: comment.trim(),
+		});
+
+		if (response.success === false) {
+			setError(response.error);
+			return;
+		}
 
 		setActiveId(annotation.id);
-		setStartSeconds(null);
-		setEndSeconds(null);
+		setStartMs(null);
+		setEndMs(null);
 		setComment("");
 		setError(null);
 	}
@@ -80,10 +91,9 @@ export function VideoWorkspace({
 
 		if (!video) return;
 
-		video.currentTime = annotation.startSeconds;
-		setCurrentTime(annotation.startSeconds);
+		video.currentTime = annotation.startMs;
+		setCurrentTime(annotation.startMs);
 
-		// Playback may be blocked by the browser; seeking still works.
 		void video.play().catch(() => {});
 	}
 
@@ -103,8 +113,8 @@ export function VideoWorkspace({
 
 						<AnnotationControls
 							currentTime={currentTime}
-							startSeconds={startSeconds}
-							endSeconds={endSeconds}
+							startMs={startMs}
+							endMs={endMs}
 							comment={comment}
 							error={error}
 							onMarkStart={markStart}

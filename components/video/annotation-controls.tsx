@@ -4,8 +4,8 @@ import { formatTime } from "./video.types";
 
 type AnnotationControlsProps = {
 	currentTime: number;
-	startSeconds: number | null;
-	endSeconds: number | null;
+	startMs: number | null;
+	endMs: number | null;
 	comment: string;
 	error: string | null;
 	onMarkStart: () => void;
@@ -16,8 +16,8 @@ type AnnotationControlsProps = {
 
 export function AnnotationControls({
 	currentTime,
-	startSeconds,
-	endSeconds,
+	startMs,
+	endMs,
 	comment,
 	error,
 	onMarkStart,
@@ -26,7 +26,7 @@ export function AnnotationControls({
 	onSubmit,
 }: AnnotationControlsProps) {
 	const canSubmit =
-		startSeconds !== null && endSeconds !== null && comment.trim().length > 0;
+		startMs !== null && endMs !== null && comment.trim().length > 0;
 
 	const buttonClass =
 		"rounded-xl border border-white/20 px-5 py-3 text-sm " +
@@ -45,14 +45,14 @@ export function AnnotationControls({
 				<button type="button" onClick={onMarkStart} className={buttonClass}>
 					<span className="block text-white/60">Start</span>
 					<span className="text-sky-400">
-						{startSeconds === null ? "Set start" : formatTime(startSeconds)}
+						{startMs === null ? "Set start" : formatTime(startMs)}
 					</span>
 				</button>
 
 				<button type="button" onClick={onMarkEnd} className={buttonClass}>
 					<span className="block text-white/60">End</span>
 					<span className="text-sky-400">
-						{endSeconds === null ? "Set end" : formatTime(endSeconds)}
+						{endMs === null ? "Set end" : formatTime(endMs)}
 					</span>
 				</button>
 			</div>
