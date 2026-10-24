@@ -18,10 +18,10 @@ export default async function VideoPage({ params }: VideoPageProps) {
 
 	if (result.success === false) {
 		return (
-			<main className="grid min-h-screen place-items-center bg-[#111] p-6 text-white">
+			<main className="grid min-h-screen place-items-center bg-background p-6 text-foreground">
 				<div className="max-w-md text-center">
 					<h1 className="text-2xl font-semibold">Unable to load video</h1>
-					<p className="mt-3 text-sm text-white/60">
+					<p className="mt-3 text-sm text-muted-foreground">
 						{result.error ?? "Something went wrong. Please try again."}
 					</p>
 				</div>

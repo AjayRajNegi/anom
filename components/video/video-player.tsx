@@ -12,7 +12,7 @@ export function VideoPlayer({ src, videoRef, onTimeUpdate }: VideoPlayerProps) {
 	return (
 		<section
 			aria-label="Video player"
-			className="overflow-hidden rounded-2xl border border-white/20 bg-black"
+			className="overflow-hidden rounded-2xl border border-border bg-black"
 		>
 			{/** biome-ignore lint/a11y/useMediaCaption: <explanation> */}
 			<video
