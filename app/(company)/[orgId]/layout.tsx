@@ -35,8 +35,6 @@ export default function RootLayout({
 				<AppSidebar />
 				<ToastProvider position="bottom-right">
 					<AnchoredToastProvider>
-						{/* <Header /> */}
-
 						<main className="flex-1">
 							<SiteHeader />
 							{children}
