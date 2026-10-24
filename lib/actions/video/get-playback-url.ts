@@ -23,11 +23,15 @@ type VideoResult = {
 	width: number | null;
 	height: number | null;
 	fps: number | null;
-	uploader: {
-		email: string;
-		name: string;
-		image: string | null;
-	};
+	annotations: {
+		body: string;
+		startMs: number;
+		endMs: number;
+		author: {
+			email: string;
+			name: string;
+		};
+	}[];
 };
 
 export type GetPlaybackUrlResult =
@@ -78,11 +82,17 @@ export async function getVideoPlaybackUrl(
 			height: true,
 			fps: true,
 			originalKey: true,
-			uploader: {
+			annotations: {
 				select: {
-					name: true,
-					email: true,
-					image: true,
+					startMs: true,
+					endMs: true,
+					body: true,
+					author: {
+						select: {
+							name: true,
+							email: true,
+						},
+					},
 				},
 			},
 		},
