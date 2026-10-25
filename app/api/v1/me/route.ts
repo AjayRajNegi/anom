@@ -1,15 +1,17 @@
-import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 import { auth } from "@/lib/auth/auth";
 
-export async function GET() {
-  const session = await auth.api.getSession({
-    headers: await headers(),
-  });
+export async function GET(request: Request) {
+	const session = await auth.api.getSession({
+		headers: request.headers,
+	});
 
-  if (!session) return NextResponse.json("Unauthorized", { status: 402 });
-  return NextResponse.json(
-    { email: session.user.email, id: session.user.id },
-    { status: 200 },
-  );
+	if (!session) {
+		return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+	}
+
+	return NextResponse.json({
+		email: session.user.email,
+		id: session.user.id,
+	});
 }

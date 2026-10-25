@@ -17,18 +17,26 @@ import { auth } from "@/lib/auth/auth";
 import { env } from "@/lib/config/env";
 
 export default async function Profile() {
-	const session = await auth.api.getSession({ headers: await headers() });
+	const requestHeaders = await headers();
+	const session = await auth.api.getSession({
+		headers: requestHeaders,
+	});
+
 	if (!session) redirect("/login");
 
 	const [data, accounts, orgs] = await Promise.all([
 		fetch(`${env.NEXT_PUBLIC_APP_URL}/api/v1/me`, {
-			headers: await headers(),
+			headers: new Headers(requestHeaders),
+			cache: "no-store",
 		}),
-		auth.api.listUserAccounts({ headers: await headers() }),
-		auth.api.listOrganizations({ headers: await headers() }),
+		auth.api.listUserAccounts({
+			headers: requestHeaders,
+		}),
+		auth.api.listOrganizations({
+			headers: requestHeaders,
+		}),
 	]);
 
-	// Just an example of fetching data from the api routes
 	const res = await data.json();
 
 	const hasCredentialAccount = accounts.some(
