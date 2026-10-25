@@ -6,10 +6,7 @@ A multi-tenant web application where members of different companies review video
 
 Watch the platform in action:
 
-<video controls width="100%" height="auto" style="border-radius: 8px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1); margin: 1rem 0;">
-  <source src="workflow.mp4" type="video/mp4">
-  Your browser does not support the video tag.
-</video>
+[Watch demo video](./workflow.mp4)
 
 ## Features
 
