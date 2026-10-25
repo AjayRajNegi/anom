@@ -34,6 +34,7 @@ export function AnnotationList({
 		const res = await deleteAnnotation({ annotationId: id });
 
 		if (!res.success) {
+			console.log(res.error);
 			toastManager.add({ title: "Couldn't delete annotation", type: "error" });
 			return;
 		}
