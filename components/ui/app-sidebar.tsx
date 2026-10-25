@@ -93,7 +93,7 @@ const data = {
 	navSecondary: [
 		{
 			title: "Profile",
-			url: "/anom-org/profile",
+			url: "/profile",
 			icon: User2Icon,
 		},
 	],
