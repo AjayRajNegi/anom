@@ -1,13 +1,10 @@
 "use client";
 
 import {
-	CameraIcon,
 	ChartBarIcon,
 	CircleFadingPlayIcon,
 	DatabaseIcon,
-	FileTextIcon,
 	FolderUserIcon,
-	LayoutDashboard,
 	ListIcon,
 	UploadIcon,
 	User2Icon,

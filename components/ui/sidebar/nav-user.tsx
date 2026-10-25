@@ -1,6 +1,6 @@
 "use client";
 
-import { EllipsisVerticalIcon, LogOutIcon, UserCircleIcon } from "lucide-react";
+import { EllipsisVerticalIcon, UserCircleIcon } from "lucide-react";
 import { SignoutButton } from "@/components/auth/signout-button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {

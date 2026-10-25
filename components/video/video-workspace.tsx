@@ -8,12 +8,14 @@ import type { Annotation } from "./video.types";
 import { VideoPlayer } from "./video-player";
 
 type VideoWorkspaceProps = {
+	userId: string;
 	videoId: string;
 	playbackUrl: string;
 	initialAnnotations: Annotation[];
 };
 
 export function VideoWorkspace({
+	userId,
 	videoId,
 	playbackUrl,
 	initialAnnotations,
@@ -61,9 +63,10 @@ export function VideoWorkspace({
 			startMs,
 			endMs,
 			body: trimmedComment,
+			authorId: userId,
 		};
 
-		console.log(annotation);
+		setAnnotations([...initialAnnotations, annotation]);
 
 		const response = await createAnnotation({
 			videoId,
@@ -100,9 +103,9 @@ export function VideoWorkspace({
 	return (
 		<main
 			aria-label={`Video workspace for ${videoId}`}
-			className="min-h-screen bg-background p-4 text-foreground"
+			className="bg-background p-4 text-foreground"
 		>
-			<div className="mx-auto w-full max-w-[1600px] rounded-xl p-1.5 sm:p-3">
+			<div className="mx-auto w-full max-w-[1600px] rounded-xl">
 				<div className="grid grid-cols-1 gap-4 lg:grid-cols-[minmax(0,1fr)_300px]">
 					<div className="min-w-0 space-y-4">
 						<VideoPlayer
@@ -125,9 +128,11 @@ export function VideoWorkspace({
 					</div>
 
 					<AnnotationList
+						userId={userId}
 						annotations={annotations}
 						activeId={activeId}
 						onSelect={selectAnnotation}
+						setAnnotations={setAnnotations}
 					/>
 				</div>
 			</div>

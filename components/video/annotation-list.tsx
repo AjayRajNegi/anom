@@ -1,19 +1,49 @@
+/** biome-ignore-all lint/a11y/useKeyWithClickEvents: suppress */
 "use client";
 
+import { EllipsisVertical } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { deleteAnnotation } from "@/lib/actions/annotation/delete-annotation";
+import { Avatar, AvatarFallback } from "../ui/avatar";
+import {
+	DropdownMenu,
+	DropdownMenuContent,
+	DropdownMenuGroup,
+	DropdownMenuItem,
+	DropdownMenuTrigger,
+} from "../ui/menu";
+import { toastManager } from "../ui/toast";
 import { type Annotation, formatRange } from "./video.types";
 
 type AnnotationListProps = {
+	userId: string;
 	annotations: Annotation[];
 	activeId: string | null;
 	onSelect: (annotation: Annotation) => void;
+	setAnnotations: (annotations: Annotation[]) => void;
 };
 
 export function AnnotationList({
+	userId,
 	annotations,
 	activeId,
 	onSelect,
+	setAnnotations,
 }: AnnotationListProps) {
+	const updateAnnotationList = async (id: string) => {
+		const res = await deleteAnnotation({ annotationId: id });
+
+		if (!res.success) {
+			toastManager.add({ title: "Couldn't delete annotation", type: "error" });
+			return;
+		}
+
+		const updatedAnnotation = annotations.filter(
+			(annotation) => annotation.id !== id,
+		);
+		setAnnotations(updatedAnnotation);
+		toastManager.add({ title: "Annotation deleted" });
+	};
 	return (
 		<aside className="flex min-h-64 flex-col rounded-lg border bg-card lg:min-h-0 transition-shadow hover:shadow-xl">
 			<div className="flex items-center justify-between gap-2 border-b px-4 py-3">
@@ -36,25 +66,65 @@ export function AnnotationList({
 						const isActive = annotation.id === activeId;
 
 						return (
-							<button
+							<div
 								key={annotation.id}
-								type="button"
-								onClick={() => onSelect(annotation)}
-								aria-pressed={isActive}
-								className={`w-full rounded-md border px-3 py-3 text-left transition-colors ${
+								className={`flex w-full items-start gap-2 rounded-md border px-3 py-3 transition-colors ${
 									isActive
 										? "border-primary/30 bg-accent"
 										: "border-transparent hover:bg-muted/50"
 								}`}
 							>
-								<span className="block font-mono text-xs text-muted-foreground">
-									{formatRange(annotation)}
-								</span>
+								<button
+									type="button"
+									onClick={() => onSelect(annotation)}
+									aria-pressed={isActive}
+									className="flex min-w-0 flex-1 items-start text-left"
+								>
+									<div className="min-w-0 flex-1">
+										<div className="flex items-center gap-2">
+											<Avatar className="h-8 w-8 shrink-0 rounded-lg">
+												<AvatarFallback className="rounded-lg">
+													AN
+												</AvatarFallback>
+											</Avatar>
 
-								<span className="mt-1.5 block whitespace-pre-wrap break-words text-sm leading-relaxed text-foreground">
-									{annotation.body}
-								</span>
-							</button>
+											<span className="block font-mono text-xs text-muted-foreground">
+												{formatRange(annotation)}
+											</span>
+										</div>
+
+										<span className="mt-1.5 block whitespace-pre-wrap break-words text-sm leading-relaxed text-foreground">
+											{annotation.body}
+										</span>
+									</div>
+								</button>
+
+								{/** biome-ignore lint/a11y/noStaticElementInteractions: suppress */}
+								<div onClick={(event) => event.stopPropagation()}>
+									<DropdownMenu>
+										<DropdownMenuTrigger
+											aria-label="Annotation options"
+											className="flex size-8 shrink-0 items-center justify-center rounded-md text-muted-foreground hover:bg-muted hover:text-foreground"
+										>
+											<EllipsisVertical className="size-4" />
+										</DropdownMenuTrigger>
+
+										<DropdownMenuContent align="end">
+											<DropdownMenuGroup>
+												<DropdownMenuItem
+													disabled={userId !== annotation.authorId}
+													className="text-destructive focus:text-destructive"
+													onClick={() => {
+														void updateAnnotationList(annotation.id);
+													}}
+												>
+													Delete
+												</DropdownMenuItem>
+											</DropdownMenuGroup>
+										</DropdownMenuContent>
+									</DropdownMenu>
+								</div>
+							</div>
 						);
 					})
 				)}

@@ -18,7 +18,7 @@ export default function RootLayout({
 			<body className="bg-sidebar">
 				<ThemeProvider
 					attribute="class"
-					defaultTheme="system"
+					defaultTheme="light"
 					enableSystem
 					disableTransitionOnChange
 				>

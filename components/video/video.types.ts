@@ -3,6 +3,7 @@ export type Annotation = {
 	startMs: number;
 	endMs: number;
 	body: string;
+	authorId: string;
 };
 
 export function formatTime(milliseconds: number): string {

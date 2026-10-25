@@ -1,15 +1,17 @@
 import { VideoWorkspace } from "@/components/video/video-workspace";
 import { getVideoAnnotations } from "@/lib/actions/annotation/get-annotations";
 import { getVideoPlaybackUrl } from "@/lib/actions/video";
+import { requireUser } from "@/lib/dal";
 
 type VideoPageProps = {
 	params: Promise<{ videoId: string }>;
 };
 
 export default async function VideoPage({ params }: VideoPageProps) {
+	const user = await requireUser();
+
 	const { videoId } = await params;
 	const result = await getVideoPlaybackUrl({ videoId });
-
 	const annotationResult = await getVideoAnnotations({ videoId });
 
 	const initialAnnotations = annotationResult.success
@@ -31,6 +33,7 @@ export default async function VideoPage({ params }: VideoPageProps) {
 
 	return (
 		<VideoWorkspace
+			userId={user.id}
 			videoId={videoId}
 			playbackUrl={result.playbackUrl}
 			initialAnnotations={initialAnnotations}
